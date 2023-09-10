@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caesar Cipher Encryption and Decryption</title>
+</head>
+<body>
+    <h1>Caesar Cipher Encryption and Decryption</h1>
+
+    <table>
+        <tr>
+            <td><label for="text">Text:</label></td>
+            <td><input type="text" id="text"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <button onclick="encrypt()">Encrypt</button>
+                <button onclick="decrypt()">Decrypt</button>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="result">Result:</label></td>
+            <td><input type="text" id="result"></td>
+        </tr>
+    </table>
+
+    <script>
+        // Function to encrypt or decrypt text using Caesar Cipher
+        function caesarCipher(text, shift, encrypt) {
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                const code = text.charCodeAt(i);
+
+                if ((code >= 65 && code <= 90) || (code >= 97 && code <= 122)) {
+                    // For alphabetic characters, use a modulus of 26
+                    if (code >= 65 && code <= 90) {
+                        char = String.fromCharCode(((code - 65 + shift) % 26) + 65);
+                    } else if (code >= 97 && code <= 122) {
+                        char = String.fromCharCode(((code - 97 + shift) % 26) + 97);
+                    }
+                } else if (code >= 48 && code <= 57) {
+                    // For digits 0-9, use a modulus of 10
+                    char = String.fromCharCode(((code - 48 + shift) % 10) + 48);
+                } else {
+                    // For other characters, use a modulus of 127
+                    char = String.fromCharCode((code + shift) % 127);
+                }
+                result += char;
+            }
+            return result;
+        }
+
+        // Function to perform encryption
+        function encrypt() {
+            const text = document.getElementById('text').value;
+            const shift = 12; // Shift by 12 for numbers
+            const ciphertext = caesarCipher(text, shift, true);
+            document.getElementById('result').value = "Ciphertext: " + ciphertext;
+        }
+
+        // Function to perform decryption
+        function decrypt() {
+            const text = document.getElementById('text').value;
+            const shift = 12; // Shift by 12 for numbers
+            const plaintext = caesarCipher(text, shift, false);
+            document.getElementById('result').value = "Plaintext: " + plaintext;
+        }
+    </script>
+</body>
+</html>
